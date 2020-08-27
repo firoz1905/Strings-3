@@ -1,0 +1,31 @@
+Approach1 :
+Time complexity : O(n)--- > length of string
+Space Complexity :O(n) --- Stack in which values stored
+class Solution {
+    public int calculate(String s) {
+        //Edge Case
+        if(s==null || s.length()==0) return 0;
+        int n=s.length();
+        char lastsign='+';int num=0;
+        Stack<Integer> st=new Stack<>();
+        for (int i=0;i<n;i++){
+            char ch=s.charAt(i);
+            if(Character.isDigit(ch)){
+                num=num*10+ch-'0';                
+            }
+            if (!Character.isDigit(ch) && ch!=' ' || i==n-1){
+                if (lastsign=='+') st.push(num);
+                else if (lastsign=='-') st.push(-num);
+                else if (lastsign=='*') st.push(st.pop()*num);
+                else if (lastsign=='/') st.push(st.pop()/num);
+                lastsign=ch; //  Resetting the last sign and num
+                num=0;
+            }
+        }
+        int result=0;
+        while(!st.isEmpty()){
+            result +=st.pop();
+        }
+        return result;       
+    }
+}
